@@ -130,5 +130,24 @@ void main() {
 			printf("\n");
 		}
 		break;
+	case 'r':
+		break;
+	case 't':
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
+				printf("%d  ", matrix1[j][i]);
+			}
+			printf("\n");
+		}
+		printf("\n");
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
+				printf("%d  ", matrix2[j][i]);
+			}
+			printf("\n");
+		}
+		break;
+	case 'e':
+		break;
 	}
 }
