@@ -64,6 +64,17 @@ int main() {
 			}
 			break;
 
+		case 'e':
+			if (con.e == 0) {
+				reset_file_pointer(file);
+				con.e++;
+			}
+			else {
+				reset_file_pointer(file);
+				print_original(file);
+				con.e = 0;
+			}
+
 		case 'q':
 			printf("프로그램 종료\n");
 			exit(0);
