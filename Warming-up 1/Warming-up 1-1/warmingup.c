@@ -3,6 +3,8 @@
 #include<time.h>
 
 #define SIZE 4
+int determinant(int matrix[SIZE][SIZE], int size);
+void minor_matrix(int matrix[SIZE][SIZE], int temp[SIZE][SIZE], int row, int size);
 
 void main() {
 	int matrix1[SIZE][SIZE], matrix2[SIZE][SIZE];
@@ -45,13 +47,15 @@ void main() {
 		}
 	}
 
+	// 행렬 확인용
+	printf("1번 행렬\n");
 	for (int i = 0; i < SIZE; i++) {
 		for (int j = 0; j < SIZE; j++) {
 			printf("%d  ", matrix1[i][j]);
 		}
 		printf("\n");
 	}
-	printf("\n");
+	printf("\n2번 행렬\n");
 	for (int i = 0; i < SIZE; i++) {
 		for (int j = 0; j < SIZE; j++) {
 			printf("%d  ", matrix2[i][j]);
@@ -63,37 +67,20 @@ void main() {
 	scanf("%c", &command);
 
 	int sum = 0;
+	int det1 = 0, det2 = 0;
 	switch (command)
 	{
-	case 'm':
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				sum = matrix1[0][j] * matrix2[j][i] + sum;
+	case 'm':		// 행렬의 곱
+		for (int k = 0; k < SIZE; k++) {
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					sum = matrix1[k][j] * matrix2[j][i] + sum;
+				}
+				matrix_result[k][i] = sum;
+				sum = 0;
 			}
-			matrix_result[0][i] = sum;
-			sum = 0;
 		}
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				sum = matrix1[1][j] * matrix2[j][i] + sum;
-			}
-			matrix_result[1][i] = sum;
-			sum = 0;
-		}
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				sum = matrix1[2][j] * matrix2[j][i] + sum;
-			}
-			matrix_result[2][i] = sum;
-			sum = 0;
-		}
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				sum = matrix1[3][j] * matrix2[j][i] + sum;
-			}
-			matrix_result[3][i] = sum;
-			sum = 0;
-		}
+
 		printf("\n");
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
@@ -102,7 +89,8 @@ void main() {
 			printf("\n");
 		}
 		break;
-	case 'a':
+
+	case 'a':		// 행렬의 덧셈
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
 				matrix_result[i][j] = matrix1[i][j] + matrix2[i][j];
@@ -116,7 +104,8 @@ void main() {
 			printf("\n");
 		}
 		break;
-	case'd':
+
+	case'd':		// 행렬의 뺄셈
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
 				matrix_result[i][j] = matrix1[i][j] - matrix2[i][j];
@@ -130,8 +119,15 @@ void main() {
 			printf("\n");
 		}
 		break;
-	case 'r':
+
+	case 'r':		// 행렬식
+		det1 = determinant(matrix1, SIZE);
+		printf("1번 행렬의 행렬식 = %d\n", det1);
+		det2 = determinant(matrix2, SIZE);
+		printf("2번 행렬의 행렬식 = %d\n", det2);
+
 		break;
+
 	case 't':
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
@@ -139,6 +135,7 @@ void main() {
 			}
 			printf("\n");
 		}
+		printf("\n행렬식 = %d\n", det1);
 		printf("\n");
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
@@ -146,8 +143,45 @@ void main() {
 			}
 			printf("\n");
 		}
+		printf("\n행렬식 = %d\n", det2);
 		break;
+
 	case 'e':
 		break;
 	}
+}
+
+void minor_matrix(int matrix[SIZE][SIZE], int temp[SIZE][SIZE], int row, int size)
+{
+	int a = 0, b = 0;
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			if (i != 0 && j != row) {
+				temp[a][b++] = matrix[i][j];
+
+				if (b == size - 1) {
+					b = 0;
+					a++;
+				}
+			}
+		}
+	}
+}
+
+int determinant(int matrix[SIZE][SIZE], int size)
+{
+	int det = 0;
+	int temp[SIZE][SIZE];
+	int sign = 1;
+
+	for (int i = 0; i < size; i++) {
+		minor_matrix(matrix, temp, i, size);
+
+		det += sign * matrix[0][i] * determinant(temp, size - 1);
+
+		sign = sign * -1;
+	}
+
+	return det;
 }
