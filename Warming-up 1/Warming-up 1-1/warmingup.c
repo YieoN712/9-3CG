@@ -5,6 +5,7 @@
 #define SIZE 4
 int determinant(int matrix[SIZE][SIZE], int size);
 void minor_matrix(int matrix[SIZE][SIZE], int temp[SIZE][SIZE], int row, int size);
+void Num_multiplyMatirix(int matrix[SIZE][SIZE], char multiplier);
 
 void main() {
 	int matrix1[SIZE][SIZE], matrix2[SIZE][SIZE];
@@ -13,64 +14,68 @@ void main() {
 	char command;
 	srand(time(NULL));
 
-	// matrix 1
-	for (int i = 0; i < SIZE; i++) {
-		for (int j = 0; j < SIZE; j++) {
-			rand_num = rand() % 3;
-			if (rand_num == 2 && counting_2 < 2) {
-				matrix1[i][j] = rand_num;
-				counting_2++;
-			}
-			else if (rand_num != 2) {
-				matrix1[i][j] = rand_num;
-			}
-			else {
-				j--;
-			}
-		}
-	}
-	// matrix 2
-	counting_2 = 0;
-	for (int i = 0; i < SIZE; i++) {
-		for (int j = 0; j < SIZE; j++) {
-			rand_num = rand() % 3;
-			if (rand_num == 2 && counting_2 < 2) {
-				matrix2[i][j] = rand_num;
-				counting_2++;
-			}
-			else if (rand_num != 2) {
-				matrix2[i][j] = rand_num;
-			}
-			else {
-				j--;
-			}
-		}
-	}
-
-	// 행렬 확인용
-	printf("1번 행렬\n");
-	for (int i = 0; i < SIZE; i++) {
-		for (int j = 0; j < SIZE; j++) {
-			printf("%d  ", matrix1[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n2번 행렬\n");
-	for (int i = 0; i < SIZE; i++) {
-		for (int j = 0; j < SIZE; j++) {
-			printf("%d  ", matrix2[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-
-	int sum = 0;
+	int sum = 0, number = 0;
 	int det1 = 0, det2 = 0;
-	int count = 0;
+	int count = 0, matrix_rand = 0;
 
 	while (1) {
+		if (matrix_rand == 0) {
+			// matrix 1
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					rand_num = rand() % 3;
+					if (rand_num == 2 && counting_2 < 2) {
+						matrix1[i][j] = rand_num;
+						counting_2++;
+					}
+					else if (rand_num != 2) {
+						matrix1[i][j] = rand_num;
+					}
+					else {
+						j--;
+					}
+				}
+			}
+			// matrix 2
+			counting_2 = 0;
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					rand_num = rand() % 3;
+					if (rand_num == 2 && counting_2 < 2) {
+						matrix2[i][j] = rand_num;
+						counting_2++;
+					}
+					else if (rand_num != 2) {
+						matrix2[i][j] = rand_num;
+					}
+					else {
+						j--;
+					}
+				}
+			}
+
+			// 행렬 확인용
+			printf("1번 행렬\n");
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					printf("%d  ", matrix1[i][j]);
+				}
+				printf("\n");
+			}
+			printf("\n2번 행렬\n");
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					printf("%d  ", matrix2[i][j]);
+				}
+				printf("\n");
+			}
+			printf("\n");
+
+			matrix_rand++;
+		}
+
 		printf("command : ");
-		scanf("%c", &command);
+		scanf(" %c", &command);
 
 		switch (command)
 		{
@@ -159,6 +164,9 @@ void main() {
 					else if (count == 1 && matrix1[i][j] % 2 != 0) {
 						printf("%3d", matrix1[i][j]);
 					}
+					else if (count == 2) {
+						printf("%3d", matrix1[i][j]);
+					}
 					else {
 						printf("   ");
 					}
@@ -175,6 +183,9 @@ void main() {
 					else if (count == 1 && matrix2[i][j] % 2 != 0) {
 						printf("%3d", matrix2[i][j]);
 					}
+					else if (count == 2) {
+						printf("%3d", matrix2[i][j]);
+					}
 					else {
 						printf("   ");
 					}
@@ -183,12 +194,21 @@ void main() {
 				printf("\n");
 			}
 
-			if (count == 0) {
-				count++;
-			}
-			else {
+			if (count == 2) {
 				count = 0;
 			}
+			else {
+				count++;
+			}
+			break;
+
+		case 's':
+			matrix_rand = 0;
+			break;
+
+		case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+			Num_multiplyMatirix(matrix1, command);
+			Num_multiplyMatirix(matrix2, command);
 			break;
 
 		case 'q':
@@ -234,4 +254,24 @@ int determinant(int matrix[SIZE][SIZE], int size)
 	}
 
 	return det;
+}
+
+void Num_multiplyMatirix(int matrix[SIZE][SIZE], char multiplier)
+{
+	int num = multiplier - '0';
+	int temp[SIZE][SIZE];
+
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			temp[i][j] = matrix[i][j] * num;
+		}
+	}
+
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			printf("%3d", temp[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\n");
 }
