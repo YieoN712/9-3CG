@@ -21,7 +21,7 @@ void main() {
 				matrix1[i][j] = rand_num;
 				counting_2++;
 			}
-			else if(rand_num!=2){
+			else if (rand_num != 2) {
 				matrix1[i][j] = rand_num;
 			}
 			else {
@@ -64,91 +64,141 @@ void main() {
 	}
 	printf("\n");
 
-	scanf("%c", &command);
-
 	int sum = 0;
 	int det1 = 0, det2 = 0;
-	switch (command)
-	{
-	case 'm':		// 행렬의 곱
-		for (int k = 0; k < SIZE; k++) {
+	int count = 0;
+
+	while (1) {
+		printf("command : ");
+		scanf("%c", &command);
+
+		switch (command)
+		{
+		case 'm':		// 행렬의 곱
+			for (int k = 0; k < SIZE; k++) {
+				for (int i = 0; i < SIZE; i++) {
+					for (int j = 0; j < SIZE; j++) {
+						sum = matrix1[k][j] * matrix2[j][i] + sum;
+					}
+					matrix_result[k][i] = sum;
+					sum = 0;
+				}
+			}
+
+			printf("\n");
 			for (int i = 0; i < SIZE; i++) {
 				for (int j = 0; j < SIZE; j++) {
-					sum = matrix1[k][j] * matrix2[j][i] + sum;
+					printf("%d  ", matrix_result[i][j]);
 				}
-				matrix_result[k][i] = sum;
-				sum = 0;
+				printf("\n");
 			}
-		}
+			break;
 
-		printf("\n");
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				printf("%d  ", matrix_result[i][j]);
+		case 'a':		// 행렬의 덧셈
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					matrix_result[i][j] = matrix1[i][j] + matrix2[i][j];
+				}
 			}
 			printf("\n");
-		}
-		break;
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					printf("%d  ", matrix_result[i][j]);
+				}
+				printf("\n");
+			}
+			break;
 
-	case 'a':		// 행렬의 덧셈
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				matrix_result[i][j] = matrix1[i][j] + matrix2[i][j];
-			}
-		}
-		printf("\n");
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				printf("%d  ", matrix_result[i][j]);
-			}
-			printf("\n");
-		}
-		break;
-
-	case'd':		// 행렬의 뺄셈
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				matrix_result[i][j] = matrix1[i][j] - matrix2[i][j];
-			}
-		}
-		printf("\n");
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				printf("%d  ", matrix_result[i][j]);
+		case'd':		// 행렬의 뺄셈
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					matrix_result[i][j] = matrix1[i][j] - matrix2[i][j];
+				}
 			}
 			printf("\n");
-		}
-		break;
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					printf("%d  ", matrix_result[i][j]);
+				}
+				printf("\n");
+			}
+			break;
 
-	case 'r':		// 행렬식
-		det1 = determinant(matrix1, SIZE);
-		printf("1번 행렬의 행렬식 = %d\n", det1);
-		det2 = determinant(matrix2, SIZE);
-		printf("2번 행렬의 행렬식 = %d\n", det2);
+		case 'r':		// 행렬식
+			det1 = determinant(matrix1, SIZE);
+			printf("1번 행렬의 행렬식 = %d\n", det1);
+			det2 = determinant(matrix2, SIZE);
+			printf("2번 행렬의 행렬식 = %d\n", det2);
 
-		break;
+			break;
 
-	case 't':
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				printf("%d  ", matrix1[j][i]);
+		case 't':
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					printf("%d  ", matrix1[j][i]);
+				}
+				printf("\n");
+			}
+			printf("\n행렬식 = %d\n", det1);
+			printf("\n");
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					printf("%d  ", matrix2[j][i]);
+				}
+				printf("\n");
+			}
+			printf("\n행렬식 = %d\n", det2);
+			break;
+
+		case 'e':
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					if (count == 0 && matrix1[i][j] % 2 == 0) {
+						printf("%3d", matrix1[i][j]);
+					}
+					else if (count == 1 && matrix1[i][j] % 2 != 0) {
+						printf("%3d", matrix1[i][j]);
+					}
+					else {
+						printf("   ");
+					}
+
+				}
+				printf("\n");
 			}
 			printf("\n");
-		}
-		printf("\n행렬식 = %d\n", det1);
-		printf("\n");
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				printf("%d  ", matrix2[j][i]);
-			}
-			printf("\n");
-		}
-		printf("\n행렬식 = %d\n", det2);
-		break;
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					if (count == 0 && matrix2[i][j] % 2 == 0) {
+						printf("%3d", matrix2[i][j]);
+					}
+					else if (count == 1 && matrix2[i][j] % 2 != 0) {
+						printf("%3d", matrix2[i][j]);
+					}
+					else {
+						printf("   ");
+					}
 
-	case 'e':
-		break;
+				}
+				printf("\n");
+			}
+
+			if (count == 0) {
+				count++;
+			}
+			else {
+				count = 0;
+			}
+			break;
+
+		case 'q':
+			printf("\n프로그램 종료");
+			exit(0);
+			break;
+		}
 	}
+
+	return 0;
 }
 
 void minor_matrix(int matrix[SIZE][SIZE], int temp[SIZE][SIZE], int row, int size)
