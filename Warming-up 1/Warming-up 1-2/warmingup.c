@@ -8,6 +8,7 @@ void print_original(FILE* file);
 void set_color(unsigned short color);
 void reset_file_pointer(FILE* file);
 void reverse_sentence(FILE* file);
+void reverse_word(FILE* file);
 
 struct Confirm {
 	int c; int d; int e; int f; int g; int r;
@@ -30,10 +31,10 @@ int main() {
 
 	print_original(file);
 
-	
+
 
 	while (1) {
-		printf("command: ");
+		printf("\ncommand: ");
 		scanf(" %c", &command);
 
 		switch (command)
@@ -64,16 +65,18 @@ int main() {
 			}
 			break;
 
-		case 'e':
-			if (con.e == 0) {
+		case 'f':
+			if (con.f == 0) {
 				reset_file_pointer(file);
-				con.e++;
+				reverse_word(file);
+				con.f++;
 			}
 			else {
 				reset_file_pointer(file);
 				print_original(file);
-				con.e = 0;
+				con.f = 0;
 			}
+			break;
 
 		case 'q':
 			printf("프로그램 종료\n");
@@ -157,7 +160,7 @@ void reset_file_pointer(FILE* file)
 void reverse_sentence(FILE* file)
 {
 	char line[500];
-	
+
 	while (fgets(line, sizeof(line), file) != NULL) {
 		int len = strlen(line);
 
@@ -170,4 +173,29 @@ void reverse_sentence(FILE* file)
 		}
 		putchar('\n');
 	}
+}
+// 거꾸로 출력(단어)
+void reverse_word(FILE* file)
+{
+	char line[500];
+
+	while (fgets(line, sizeof(line), file) != NULL) {
+		int len = strlen(line);
+		int start = 0;
+
+		for (int i = 0; i <= len; i++) {
+			if (line[i] == ' ' || line[i] == '\n' || line[i] == '\0') {
+				for (int j = i - 1; j >= start; j--) {
+					putchar(line[j]);
+				}
+
+				if (line[i] != '\0') {
+					putchar(line[i]);
+				}
+				start = i + 1;
+			}
+		}
+	}
+
+	printf("\n");
 }
