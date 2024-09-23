@@ -149,7 +149,7 @@ int main()
 			else {
 				sort_point_asc(points, p_copy, point_num);
 			}
-			
+
 			break;
 
 		case 's':
@@ -161,7 +161,7 @@ int main()
 				sort_point_des(points, p_copy, point_num);
 				count_s++;
 			}
-			
+
 			break;
 
 		case 'q':
