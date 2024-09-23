@@ -128,7 +128,7 @@ int main() {
 				words_count_line(file);
 				con.r = 0;
 			}
-			else if(con.r == 1){
+			else if (con.r == 1) {
 				reset_file_pointer(file);
 				asc_order(file);
 				con.r++;
