@@ -234,7 +234,7 @@ void near_point(struct Point list[], int num) {
 		if (!list[i].is_empty) {
 			double distance = squared_point(list[i]);
 
-			if (distance > min_distance) {
+			if (distance < min_distance) {
 				min_distance = distance;
 				near_index = i;
 			}
